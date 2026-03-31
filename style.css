@@ -1,0 +1,370 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0
+}
+
+body {
+    font-family: Arial;
+
+    --primary-color: #e81cff;
+    --secondary-color: #414141;
+}
+
+h1 {
+    margin: 20px 0;
+    text-align: center;
+    background: linear-gradient(215deg, #9b3ce8 30%, #3386ef, #13bcec);
+    color: transparent;
+    background-clip: text;
+    font-size: 40px;
+}
+
+#createTab {
+    max-width: 600px;
+    width: 90vw;
+    display: flex;
+    margin-top: 30px;
+    margin-left: auto;
+    margin-right: auto;
+    flex-direction: column;
+    gap: 15px;
+    text-align: center;
+}
+
+textarea {
+    width: 100%;
+    padding: 10px 10px;
+    border-radius: 8px;
+    resize: none;
+    color: #000000;
+    height: 126px;
+    border: 1px solid #414141;
+    background-color: transparent;
+    font-family: inherit;
+}
+
+textarea:focus {
+    outline: none;
+    border-color: var(--primary-color);
+}
+
+#pdfInput {
+    display: none;
+}
+
+.Documents-btn {
+    margin-left: auto;
+    margin-right: auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    /* width: 180px; */
+    height: 55px;
+    border: none;
+    padding: 0px 17px;
+    border-radius: 5px;
+    background: linear-gradient(to left bottom, #9b3ce8, #3386ef, #13bcec);
+    gap: 8px;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+#fileName {
+    margin-left: 30px;
+    font-size: 10px;
+    color: #ffffff80;
+    font-weight: 400;
+}
+
+.folderContainer {
+    width: 40px;
+    height: fit-content;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-end;
+    position: relative;
+}
+
+.fileBack {
+    z-index: 1;
+    width: 80%;
+    height: auto;
+}
+
+.filePage {
+    width: 50%;
+    height: auto;
+    position: absolute;
+    z-index: 2;
+    transition: all 0.3s ease-out;
+}
+
+.fileFront {
+    width: 85%;
+    height: auto;
+    position: absolute;
+    z-index: 3;
+    opacity: 0.95;
+    transform-origin: bottom;
+    transition: all 0.3s ease-out;
+}
+
+.text {
+    color: white;
+    font-size: 15px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+}
+
+.Documents-btn:hover .filePage {
+    transform: translateY(-5px);
+}
+
+.Documents-btn:hover {
+    background-color: rgb(58, 58, 94);
+}
+
+.Documents-btn:hover .fileFront {
+    transform: rotateX(30deg);
+}
+
+
+
+
+.number-box {
+    display: flex;
+    align-items: center;
+    border: 1px solid #414141;
+    height: 50px;
+    border-radius: 8px;
+    width: 92%;
+    max-width: 400px;
+    margin-left: auto;
+    margin-right: auto;
+
+}
+
+.number-box p {
+    margin-right: 10px;
+    font-size: 14px;
+    color: #39364d;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+    height: 100%;
+    padding: 10px;
+    background-color: #dfdddd;
+    border-radius: 10px 0px 0px 10px;
+
+}
+
+.number-box input {
+
+    padding: 8px 10px;
+    border-radius: 5px;
+    border: 0px;
+    width: 45%;
+    background-color: transparent;
+    color: #000000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    outline: none;
+    border: none;
+    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #fff;
+    font-size: 15px;
+}
+
+
+.btn {
+    margin-left: auto;
+    margin-right: auto;
+    border: none;
+    width: 100%;
+    height: 5em;
+    border-radius: 3em;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    background: #1C1A1C;
+    cursor: pointer;
+    transition: all 450ms ease-in-out;
+}
+
+.sparkle {
+    fill: #AAAAAA;
+    transition: all 800ms ease;
+}
+
+.btn .text {
+    font-weight: 600;
+    color: #cacaca;
+    font-size: x-large;
+}
+
+.btn:hover {
+    /* background: linear-gradient(0deg,#A47CF3,#683FEA); */
+    background: linear-gradient(to left bottom, #9b3ce8, #3386ef, #13bcec);
+}
+
+.btn:hover .text {
+    color: white;
+}
+
+.btn:hover .sparkle {
+    fill: white;
+    transform: scale(1.2);
+}
+
+
+
+
+
+#savedTab {
+    margin-top: 30px;
+    margin-bottom: 100px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+#savedTab button {
+    width: 90%;
+    min-height: 50px;
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    justify-content: center;
+    font-size: 14px;
+    padding: 0.5em 2em;
+    border: transparent;
+    color: white;
+    cursor: pointer;
+    opacity: 0.9;
+}
+
+#savedTab button:nth-child(2n) {
+    background: #1e90ff;
+}
+
+#savedTab button:nth-child(2n-1) {
+    background: #256dbe;
+}
+
+
+
+.glass-radio-group {
+    --bg: rgba(255, 255, 255, 0.06);
+    --text: #161515;
+
+    display: flex;
+    position: fixed;
+    bottom: 60px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--bg);
+    border-radius: 1rem;
+    backdrop-filter: blur(12px);
+    /* box-shadow:
+        inset 1px 1px 4px rgba(255, 255, 255, 0.2),
+        inset -1px -1px 6px rgba(0, 0, 0, 0.3),
+        0 4px 12px rgba(0, 0, 0, 0.15); */
+    /* border: 1px solid rgba(16, 1, 104, 0.068); */
+    background-color: rgba(41, 41, 41, 0.158);
+    overflow: hidden;
+    width: fit-content;
+
+
+}
+
+.glass-radio-group input {
+    display: none;
+}
+
+.glass-radio-group label {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 80px;
+    font-size: 20px;
+    padding: 0.8rem 1.6rem;
+    cursor: pointer;
+    font-weight: 600;
+    letter-spacing: 0.3px;
+    color: var(--text);
+    position: relative;
+    z-index: 2;
+    transition: color 0.3s ease-in-out;
+}
+
+.glass-radio-group label:hover {
+    color: white;
+}
+
+.glass-radio-group input:checked+label {
+    color: #fff;
+}
+
+.glass-glider {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: calc(100% / 2);
+    border-radius: 1rem;
+    z-index: 1;
+    transition:
+        transform 0.5s cubic-bezier(0.37, 1.95, 0.66, 0.56),
+        background 0.4s ease-in-out,
+        box-shadow 0.4s ease-in-out;
+}
+
+/* Silver */
+#glass-silver:checked~.glass-glider {
+    transform: translateX(0%);
+background: linear-gradient(212deg, #0f23fac7 0%, #0f85fa 24%, #0fe7fa 100%);
+
+}
+
+/* Gold */
+#glass-gold:checked~.glass-glider {
+    transform: translateX(100%);
+background: linear-gradient(212deg, #9b3ce8 0%, #0f85faeb 100%);
+
+}
+
+
+.credit {
+    position: fixed;
+    bottom: 10px;
+    right: 10px;
+    font-size: 12px;
+    color: #07070780;
+    font-weight: 400;
+}
+
+
+#overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: #000c;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px
+}
