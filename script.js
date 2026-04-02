@@ -1,4 +1,5 @@
-const API_KEY = "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";
+const API_KEY = localStorage.getItem("api_key")
+
 
 function showTab(tab) {
     createTab.style.display = tab === 'create' ? 'flex' : 'none';
@@ -322,4 +323,57 @@ render();
     let url = URL.createObjectURL(blob);
 
     window.open(url, "_blank");
+}
+
+function openMenu() {
+    document.getElementById("sidebar").style.display = "block";
+    document.getElementById("sidebar-toggle").style.display = "block";
+}
+
+function closeMenu() {
+    document.getElementById("sidebar").style.display = "none";
+    document.getElementById("sidebar-toggle").style.display = "none";
+}
+
+
+
+
+document.getElementById("continueBtn").onclick = function () {
+    let key = document.getElementById("apikeyinput").value.trim()
+    if (!key) return
+    localStorage.setItem("api_key", key)
+    document.getElementById("login").style.display = "none"
+}
+
+// /* AUTO LOGIN */
+
+if (localStorage.getItem("api_key")) {
+    document.getElementById("login").style.display = "none"
+}
+
+
+
+function open_api_guide() {
+    document.getElementById("apiGuide").style.display = "flex";
+}
+
+function open_about() {
+    document.getElementById("about").style.display = "flex"
+}
+function close_about() {
+    document.getElementById("about").style.display = "none"
+}
+/* API SETTINGS */
+
+function changeAPI() {
+    document.getElementById("login").style.display = "flex"
+    document.getElementById("cross").style.display = "block"
+}
+function closelogin() {
+    document.getElementById("login").style.display = "none"
+    document.getElementById("cross").style.display = "none"
+}
+function deleteAPI() {
+    localStorage.removeItem("api_key")
+    location.reload()
 }

@@ -10,6 +10,177 @@
 </head>
 
 <body>
+
+
+    <div id="overlay">Generating MCQs...</div>
+
+
+    <div class="settings">
+
+        <button onclick="openMenu()" class="button">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" viewBox="0 0 20 20" height="20" fill="none"
+                class="svg-icon">
+                <g stroke-width="1.8" stroke-linecap="round" stroke="white">
+                    <circle r="2.5" cy="10" cx="10"></circle>
+                    <path fill-rule="evenodd"
+                        d="m8.39079 2.80235c.53842-1.51424 2.67991-1.51424 3.21831-.00001.3392.95358 1.4284 1.40477 2.3425.97027 1.4514-.68995 2.9657.82427 2.2758 2.27575-.4345.91407.0166 2.00334.9702 2.34248 1.5143.53842 1.5143 2.67996 0 3.21836-.9536.3391-1.4047 1.4284-.9702 2.3425.6899 1.4514-.8244 2.9656-2.2758 2.2757-.9141-.4345-2.0033.0167-2.3425.9703-.5384 1.5142-2.67989 1.5142-3.21831 0-.33914-.9536-1.4284-1.4048-2.34247-.9703-1.45148.6899-2.96571-.8243-2.27575-2.2757.43449-.9141-.01669-2.0034-.97028-2.3425-1.51422-.5384-1.51422-2.67994.00001-3.21836.95358-.33914 1.40476-1.42841.97027-2.34248-.68996-1.45148.82427-2.9657 2.27575-2.27575.91407.4345 2.00333-.01669 2.34247-.97026z"
+                        clip-rule="evenodd"></path>
+                </g>
+            </svg>
+        </button>
+
+        <div id="sidebar" class="sidebar">
+            <h3>Settings</h3>
+            <span onclick="closeMenu()">X</span>
+            <div class="menu-btns">
+                <button onclick="changeAPI()">Change Api Key</button>
+                <button onclick="deleteAPI()">Delete Api Key</button>
+                <button>Help</button>
+                <button onclick="open_about()">About App</button>
+                <button>Delete All Data</button>
+                <button>Contact Us</button>
+            </div>
+
+        </div>
+        <div id="sidebar-toggle" onclick="closeMenu()" class="sidebar-close-screen"></div>
+
+
+        <!-- LOGIN -->
+
+        <div class="login" id="login">
+
+            <div class="loginbox">
+                <button id="cross" onclick="closelogin()">×</button>
+
+                <h2>Enter API Key</h2>
+
+                <input id="apikeyinput" placeholder="OpenRouter API Key">
+
+                <button id="continueBtn">Continue</button>
+                <p>
+                    Don't have an API key? <a href="#" onclick="open_api_guide()">How to get an API key?</a>
+                </p>
+            </div>
+
+        </div>
+
+        <div id="apiGuide" class="popup">
+
+            <div class="popup-box">
+
+                <button class="close-btn" onclick="document.getElementById('apiGuide').style.display='none'">✕</button>
+
+                <h1>How to Get an <br>OpenRouter API Key ?</h1>
+
+                <p class="intro">
+                    Follow these simple steps to generate your OpenRouter API key and use it inside Infinity Tools.
+                </p>
+
+                <div class="steps">
+
+                    <div class="step">
+                        <span>1</span>
+                        <p>Go to the OpenRouter website: <br>
+                            <a href="https://openrouter.ai" target="_blank">https://openrouter.ai</a>
+                        </p>
+                    </div>
+
+                    <div class="step">
+                        <span>2</span>
+                        <p>Click <b>Sign Up</b> or <b>Login</b> using your Google or GitHub account.</p>
+                    </div>
+
+                    <div class="step">
+                        <span>3</span>
+                        <p>After logging in, open your <b>Dashboard</b>.</p>
+                    </div>
+
+                    <div class="step">
+                        <span>4</span>
+                        <p>Navigate to the <b>API Keys</b> section.</p>
+                    </div>
+
+                    <div class="step">
+                        <span>5</span>
+                        <p>Click <b>Create Key</b> and copy the generated API key.</p>
+                    </div>
+
+                    <div class="step">
+                        <span>6</span>
+                        <p>Paste the API key inside Infinity Tools when prompted.</p>
+                    </div>
+
+                </div>
+
+                <h2>Video Tutorial</h2>
+
+                <div class="video">
+
+                    <iframe width="100%" height="100%"
+                        src="https://www.youtube.com/embed/ZELx_OzYAQo?si=d5w55Pq9DMekSG7u" title="YouTube video player"
+                        frameborder="0"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                        referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+
+                </div>
+
+            </div>
+        </div>
+
+        <div id="about">
+            <span><button class="back-circle" onclick="close_about()">➤</button></span>
+
+            <div class="about-box">
+
+                <h1>Infinity Tools</h1>
+
+                <p>
+                    Infinity Tools is a lightweight web application designed to provide
+                    useful utilities and quick tools directly inside your browser.
+                    The app focuses on simplicity, speed and a clean mobile-friendly interface.
+                </p>
+
+                <p>
+                    Instead of installing multiple apps, users can access different tools
+                    from a single place. The goal of this project is to create a growing
+                    collection of everyday utilities that are fast, minimal and easy to use.
+                </p>
+
+                <div class="info">
+
+                    <div><b>Version:</b> 1.0.0</div>
+                    <div><b>Developer:</b> Arko Sarkar</div>
+                    <div><b>Email:</b> arkos9564@gmail.com</div>
+                    <div><b>Platform:</b> Web Application</div>
+                    <div><b>Technology:</b> HTML, CSS, JavaScript</div>
+
+                </div>
+
+                <div class="features">
+
+                    <b>Main Uses</b>
+
+                    <ul>
+                        <li>Quick utility tools in one place</li>
+                        <li>Mobile friendly interface</li>
+                        <li>Fast browser-based tools</li>
+                        <li>No installation required</li>
+                        <li>Clean and simple design</li>
+                    </ul>
+
+                </div>
+
+                <div class="footer">
+                    © 2026 Infinity Tools • Built with ❤️ by Arko Sarkar
+                </div>
+
+            </div>
+        </div>
+
+
+    </div>
+
+
     <h1> Infinity Quest</h1>
 
     <div id="createTab">
@@ -79,16 +250,13 @@
                     d="M10,21.236,6.755,14.745.264,11.5,6.755,8.255,10,1.764l3.245,6.491L19.736,11.5l-6.491,3.245ZM18,21l1.5,3L21,21l3-1.5L21,18l-1.5-3L18,18l-3,1.5ZM19.333,4.667,20.5,7l1.167-2.333L24,3.5,21.667,2.333,20.5,0,19.333,2.333,17,3.5Z">
                 </path>
             </svg>
-            <span class="text">Generate</span>
+            <span class="text btn-shine">Generate</span>
         </button>
     </div>
 
 
     <div id="savedTab">
     </div>
-
-    <div id="overlay">Generating MCQs...</div>
-
 
 
     <div class="glass-radio-group">
