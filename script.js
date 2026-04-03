@@ -1,6 +1,13 @@
 const API_KEY = localStorage.getItem("api_key")
 
 
+document.addEventListener("DOMContentLoaded", () => {
+
+    setTimeout(() => {
+        document.getElementById("main-loading").style.display = "none"
+    }, 1500)
+})
+
 function showTab(tab) {
     createTab.style.display = tab === 'create' ? 'flex' : 'none';
     savedTab.style.display = tab === 'saved' ? 'flex' : 'none';
@@ -33,10 +40,18 @@ qInput.addEventListener("blur", () => {
     let val = parseInt(qInput.value);
 
     if (val < 10) qInput.value = 10;
-    if (val > 150) qInput.value = 150;
+    if (val > 300) qInput.value = 300;
 });
 
 qInput.addEventListener("wheel", e => e.preventDefault());
+
+
+let alertbox = document.getElementById("alert-box");
+function showAlert(message) {
+    alertbox.querySelector("p").innerText = message;
+    alertbox.style.display = "flex";
+    setTimeout(() => (alertbox.style.display = "none"), 2000);
+}
 
 
 async function startGeneration() {
@@ -44,11 +59,11 @@ async function startGeneration() {
     const file = pdfInput.files[0];
     const count = qCount.value;
 
-    if (text && file) return alert("Use only one input!");
+    if (text && file) return showAlert("Please provide either text or a PDF, not both.");
 
     if (text) return generateMCQ(text, count);
 
-    if (!file) return alert("Enter text or upload PDF");
+    if (!file) return showAlert("Enter text or upload PDF");
 
     const reader = new FileReader();
     reader.onload = async () => {
@@ -59,37 +74,51 @@ async function startGeneration() {
             const c = await page.getTextContent();
             fullText += c.items.map(i => i.str).join(" ");
         }
-        fullText = fullText.replace(/\s+/g, " ").slice(0, 20000);
+        fullText = fullText.replace(/\s+/g, " ").slice(0, 25000);
         generateMCQ(fullText, count);
     };
     reader.readAsArrayBuffer(file);
 }
 
-async function generateMCQ(text, count) {
+async function generateMCQ(text, totalCount) {
     overlay.style.display = "flex";
 
-    const res = await fetch("https://openrouter.ai/api/v1/chat/completions", {
-        method: "POST",
-        headers: {
-            "Authorization": `Bearer ${API_KEY}`,
-            "Content-Type": "application/json",
-            "HTTP-Referer": location.origin,
-            "X-Title": "MCQ App"
-        },
-        body: JSON.stringify({
-            model: "openrouter/auto",
-            messages: [{
-                role: "user",
-                content: `You are a strict JSON generator.
+    let allQuestions = [];
+    let title = "MCQ Set";
+    let chunkSize = 30;
+    let maxRetries = 3;
 
-Generate EXACTLY ${count} MCQs.
+    while (allQuestions.length < totalCount) {
+        let remaining = totalCount - allQuestions.length;
+        let currentChunk = Math.min(chunkSize, remaining);
 
-Important Rules:
-- MUST return exactly ${count} questions (not less, not more)
-- Each question must have 4 options
-- One correct answer only
+        let success = false;
+        let retry = 0;
+
+        while (!success && retry < maxRetries) {
+            const res = await fetch("https://openrouter.ai/api/v1/chat/completions", {
+                method: "POST",
+                headers: {
+                    "Authorization": `Bearer ${API_KEY}`,
+                    "Content-Type": "application/json",
+                    "HTTP-Referer": location.origin,
+                    "X-Title": "MCQ App"
+                },
+                body: JSON.stringify({
+                    model: "openrouter/auto",
+                    temperature: 0.2,
+                    messages: [{
+                        role: "user",
+                        content: `You are a strict JSON generator.
+
+Generate EXACTLY ${currentChunk} MCQs.
+
+Rules:
+- MUST return exactly ${currentChunk}
+- 4 options each
+- 1 correct answer
 - No explanation
-- Output ONLY valid JSON
+- Output ONLY JSON (no markdown)
 
 Format:
 {
@@ -105,31 +134,65 @@ Format:
 
 Text:
 ${text}`
-            }]
-        })
-    });
+                    }]
+                })
+            });
 
-    const data = await res.json();
+            const data = await res.json();
 
-    overlay.style.display = "none";
+            try {
+                let content = data.choices[0].message.content;
+                content = content.replace(/```json|```/g, "").trim();
 
-    try {
-        const parsed = JSON.parse(data.choices[0].message.content);
+                const parsed = JSON.parse(content);
 
-        const saveObj = {
-            title: parsed.title,
-            date: new Date().toLocaleString(),
-            questions: parsed.questions
-        };
+                if (parsed.questions && parsed.questions.length === currentChunk) {
+                    allQuestions.push(...parsed.questions);
 
-        saveToLocal(saveObj);
-        alert("Generated & Saved!");
+                    if (parsed.title && title === "MCQ Set") {
+                        title = parsed.title;
+                    }
 
-    } catch (e) {
-        console.log(data);
-        alert("Error generating MCQs");
+                    success = true;
+                } else {
+                    throw new Error("Wrong count");
+                }
+
+            } catch (e) {
+                retry++;
+                overlay.querySelectorAll('p')[0].innerText = `Retrying chunk... (${retry}/3)`;
+            }
+        }
+
+        if (!success) {
+            overlay.innerText = "Failed to generate full set after 3 retries. Please try again.";
+            setTimeout(() => (overlay.style.display = "none"), 2000);
+            return;
+        }
+
+        // 👀 progress update
+        overlay.querySelectorAll('p')[0].innerText = `Generating... ${allQuestions.length}/${totalCount}`;
     }
+
+    const saveObj = {
+        title: title,
+        date: new Date().toLocaleString(),
+        questions: allQuestions
+    };
+
+    saveToLocal(saveObj);
+
+    overlay.innerText = "MCQs Generated Successfully!";
+
+    /* clear inputs */
+    textInput.value = "";
+    pdfInput.value = "";
+    fileName.textContent = "No file chosen";
+    qCount.value = 30;
+
+    setTimeout(() => (overlay.style.display = "none"), 1000);
 }
+
 
 function saveToLocal(data) {
     const all = JSON.parse(localStorage.getItem("mcqSets") || "[]");
@@ -141,13 +204,42 @@ function loadSaved() {
     savedTab.innerHTML = "";
     const all = JSON.parse(localStorage.getItem("mcqSets") || "[]");
 
-    all.forEach(set => {
+    all.forEach((set, index) => {
         const btn = document.createElement("button");
-        btn.innerText = `${set.title} (${set.date})`;
+        btn.classList.add("set-btn");
+
+        // text
+        const text = document.createElement("span");
+        text.innerText = `${set.title} (${set.date})`;
+
+        // delete image
+        const bin = document.createElement("img");
+        bin.src = "delete.png";
+        bin.classList.add("bin");
+
+        bin.onclick = (e) => {
+            e.stopPropagation();
+            deleteSet(index);
+        };
+
         btn.onclick = () => openSet(set);
+
+        btn.appendChild(text);
+        btn.appendChild(bin);
+
         savedTab.appendChild(btn);
     });
 }
+
+
+function deleteSet(index) {
+    let all = JSON.parse(localStorage.getItem("mcqSets") || "[]");
+    all.splice(index, 1);
+    localStorage.setItem("mcqSets", JSON.stringify(all));
+    loadSaved();
+}
+
+
 
 function openSet(set) {
 
@@ -336,6 +428,13 @@ function closeMenu() {
 }
 
 
+document.querySelectorAll(".question").forEach(q => {
+    q.addEventListener("click", () => {
+        q.classList.toggle("active");
+        q.querySelector(".q img").style.transform = q.classList.contains("active") ? "rotate(180deg)" : "rotate(0deg)";
+    });
+});
+
 
 
 document.getElementById("continueBtn").onclick = function () {
@@ -376,4 +475,15 @@ function closelogin() {
 function deleteAPI() {
     localStorage.removeItem("api_key")
     location.reload()
+}
+
+function delete_all() {
+    localStorage.removeItem("mcqSets");
+    showAlert("All saved MCQ sets have been deleted.");
+    loadSaved();
+    document.getElementById('delete-overlay').style.display = 'none';
+}
+
+function contact() {
+    window.open("https://lysosome.in", "_blank");
 }
