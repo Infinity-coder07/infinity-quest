@@ -3,6 +3,8 @@
 
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
     <meta charset="UTF-8">
     <title>Infinity Quest</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.min.js"></script>
@@ -245,7 +247,7 @@
             <div class="loginbox">
 
                 <button id="cross" onclick="closelogin()">×</button>
-                <h2>Enter API Key</h2>
+                <h1>Enter API Key</h1>
 
                 <input id="apikeyinput" placeholder="OpenRouter API Key">
 
@@ -325,7 +327,7 @@
 
             <div class="about-box">
 
-                <h1>Infinity Quest</h1>
+                <h1>About</h1>
 
                 <p>
                     Infinity Quest is an intelligent web application designed to transform
@@ -388,67 +390,71 @@
         </div>
 
         <div id="help">
+            <div class="help-div">
 
-            <span class="help-back-btn" onclick="document.getElementById('help').style.display='none'">
-                <svg xmlns="http://www.w3.org/2000/svg" height="34px" viewBox="0 -960 960 960" width="34px"
-                    fill="#EFEFEF">
-                    <path d="m313-440 224 224-57 56-320-320 320-320 57 56-224 224h487v80H313Z" />
-                </svg>
-            </span>
 
-            <h1>Help Center</h1>
+                <span class="help-back-btn" onclick="document.getElementById('help').style.display='none'">
+                    <svg xmlns="http://www.w3.org/2000/svg" height="34px" viewBox="0 -960 960 960" width="34px"
+                        fill="#EFEFEF">
+                        <path d="m313-440 224 224-57 56-320-320 320-320 57 56-224 224h487v80H313Z" />
+                    </svg>
+                </span>
 
-            <div class="faq">
-                <div class="question">
-                    <div class="q">
-                        <p>Why am I getting errors?</p>
-                        <img src="down-arrow.png" alt="">
+                <h1>Help Center</h1>
+
+                <div class="faq">
+                    <div class="question">
+                        <div class="q">
+                            <p>Why am I getting errors?</p>
+                            <img src="down-arrow.png" alt="">
+                        </div>
+                        <div class="answer">
+                            Try changing your API key. Sometimes the key may expire or hit limits.
+                        </div>
                     </div>
-                    <div class="answer">
-                        Try changing your API key. Sometimes the key may expire or hit limits.
+
+                    <div class="question">
+                        <div class="q">
+                            <p>Why is my PDF not generating questions?</p>
+                            <img src="down-arrow.png" alt="">
+                        </div>
+                        <div class="answer">
+                            Make sure your PDF has selectable text. Scanned PDFs or images will not work.
+                        </div>
                     </div>
+
+                    <div class="question">
+                        <div class="q">
+                            <p>Why is AI giving more or fewer MCQs?</p>
+                            <img src="down-arrow.png" alt="">
+                        </div>
+                        <div class="answer">
+                            This is a limitation of AI models. They may not always follow exact counts.
+                        </div>
+                    </div>
+
+                    <div class="question">
+                        <div class="q">
+                            <p>Why is generation slow?</p>
+                            <img src="down-arrow.png" alt="">
+                        </div>
+                        <div class="answer">
+                            Free models can be slower due to shared usage and limits.
+                        </div>
+                    </div>
+
+                    <div class="question">
+                        <div class="q">
+                            <p>Can I save my questions?</p>
+                            <img src="down-arrow.png" alt="">
+                        </div>
+                        <div class="answer">
+                            Yes! Use the save feature and access them anytime from the saved section.
+                        </div>
+                    </div>
+
+
                 </div>
-
-                <div class="question">
-                    <div class="q">
-                        <p>Why is my PDF not generating questions?</p>
-                        <img src="down-arrow.png" alt="">
-                    </div>
-                    <div class="answer">
-                        Make sure your PDF has selectable text. Scanned PDFs or images will not work.
-                    </div>
-                </div>
-
-                <div class="question">
-                    <div class="q">
-                        <p>Why is AI giving more or fewer MCQs?</p>
-                        <img src="down-arrow.png" alt="">
-                    </div>
-                    <div class="answer">
-                        This is a limitation of AI models. They may not always follow exact counts.
-                    </div>
-                </div>
-
-                <div class="question">
-                    <div class="q">
-                        <p>Why is generation slow?</p>
-                        <img src="down-arrow.png" alt="">
-                    </div>
-                    <div class="answer">
-                        Free models can be slower due to shared usage and limits.
-                    </div>
-                </div>
-
-                <div class="question">
-                    <div class="q">
-                        <p>Can I save my questions?</p>
-                        <img src="down-arrow.png" alt="">
-                    </div>
-                    <div class="answer">
-                        Yes! Use the save feature and access them anytime from the saved section.
-                    </div>
-                </div>
-
 
             </div>
 
@@ -460,7 +466,8 @@
     <h1> Infinity Quest</h1>
 
     <div id="createTab">
-        <textarea id="textInput" placeholder="Write Your Topic here..."></textarea>
+        <textarea id="textInput" maxlength="25000" placeholder="Write Your Topic here..."></textarea>
+        <div id="charCount">0 / 25000</div>
 
         <p>---------------------------- OR ----------------------------</p>
 

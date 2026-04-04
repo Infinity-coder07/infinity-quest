@@ -55,6 +55,10 @@ function showAlert(message) {
 
 
 async function startGeneration() {
+
+    overlay.style.display = "none";
+    overlay.querySelectorAll('p')[0].innerText = "";
+
     const text = textInput.value.trim();
     const file = pdfInput.files[0];
     const count = qCount.value;
@@ -82,7 +86,7 @@ async function startGeneration() {
 
 async function generateMCQ(text, totalCount) {
     overlay.style.display = "flex";
-
+    overlay.querySelectorAll('p')[0].innerText = "Generating MCQs...";
     let allQuestions = [];
     let title = "MCQ Set";
     let chunkSize = 30;
@@ -165,8 +169,11 @@ ${text}`
         }
 
         if (!success) {
-            overlay.innerText = "Failed to generate full set after 3 retries. Please try again.";
-            setTimeout(() => (overlay.style.display = "none"), 2000);
+            overlay.querySelectorAll('p')[0].innerText = "Failed to generate full set after 3 retries. Please try again.";
+            setTimeout(() => {
+                overlay.style.display = "none";
+                overlay.querySelectorAll('p')[0].innerText = "";
+            }, 2000);
             return;
         }
 
@@ -182,7 +189,7 @@ ${text}`
 
     saveToLocal(saveObj);
 
-    overlay.innerText = "MCQs Generated Successfully!";
+    overlay.querySelectorAll('p')[0].innerText = "MCQs Generated Successfully!";
 
     /* clear inputs */
     textInput.value = "";
@@ -190,7 +197,12 @@ ${text}`
     fileName.textContent = "No file chosen";
     qCount.value = 30;
 
-    setTimeout(() => (overlay.style.display = "none"), 1000);
+    setTimeout(() => {
+        overlay.style.display = "none";
+        overlay.querySelectorAll('p')[0].innerText = "";
+    }, 1000);
+
+
 }
 
 
@@ -466,7 +478,7 @@ function close_about() {
 
 function changeAPI() {
     document.getElementById("login").style.display = "flex"
-    document.getElementById("cross").style.display = "block"
+    document.getElementById("cross").style.display = "flex"
 }
 function closelogin() {
     document.getElementById("login").style.display = "none"
@@ -487,3 +499,27 @@ function delete_all() {
 function contact() {
     window.open("https://lysosome.in", "_blank");
 }
+
+
+
+const textInput = document.getElementById("textInput");
+const charCount = document.getElementById("charCount");
+
+textInput.addEventListener("input", () => {
+    let len = textInput.value.length;
+
+    // hard limit safety (just in case paste bypasses)
+    if (len > 25000) {
+        textInput.value = textInput.value.slice(0, 25000);
+        len = 25000;
+    }
+
+    charCount.innerText = `${len} / 25000`;
+
+    // optional: warning color
+    if (len > 24000) {
+        charCount.style.color = "red";
+    } else {
+        charCount.style.color = "#aaa";
+    }
+});

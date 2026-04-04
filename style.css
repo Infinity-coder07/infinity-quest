@@ -1,7 +1,23 @@
 * {
     box-sizing: border-box;
     margin: 0;
-    padding: 0
+    padding: 0;
+    -webkit-tap-highlight-color: transparent;
+     user-select: none;
+    -webkit-user-select: none; /* Safari/Chrome */
+     -moz-user-select: none; /* Firefox */
+     -ms-user-select: none; /* IE10+ */
+}
+
+:focus {
+    outline: none;
+}
+
+input, textarea {
+    user-select: text;
+    -webkit-user-select: text;
+    -moz-user-select: text;
+    -ms-user-select: text;
 }
 
 body {
@@ -43,12 +59,24 @@ textarea {
     border: 1px solid #414141;
     background-color: transparent;
     font-family: inherit;
+    font-size: 16px;
 }
 
 textarea:focus {
     outline: none;
     border-color: var(--primary-color);
 }
+
+#charCount {
+    position: relative;
+    top: -40px;
+    text-align: right;
+    margin-right: 5px;
+    font-size: 12px;
+    margin-top: 5px;
+    color: #5e5e5e;
+}
+
 
 #pdfInput {
     display: none;
@@ -299,7 +327,7 @@ textarea:focus {
 
 #savedTab {
     margin-top: 30px;
-    margin-bottom: 100px;
+    margin-bottom: 150px;
     display: flex;
     flex-direction: column;
     gap: 10px;
@@ -347,7 +375,7 @@ textarea:focus {
 
 
 .glass-radio-group {
-    --bg: rgba(255, 255, 255, 0.06);
+    --bg: rgba(255, 255, 255, 0.76);
     --text: #161515;
 
     display: flex;
@@ -363,7 +391,7 @@ textarea:focus {
         inset -1px -1px 6px rgba(0, 0, 0, 0.3),
         0 4px 12px rgba(0, 0, 0, 0.15); */
     /* border: 1px solid rgba(16, 1, 104, 0.068); */
-    background-color: rgba(41, 41, 41, 0.158);
+    background-color: rgba(212, 212, 212, 0.829);
     overflow: hidden;
     width: fit-content;
 
@@ -573,22 +601,26 @@ textarea:focus {
 /* ---------------------------LOGIN----------------------------- */
 
 #cross {
-    top: 21%;
-    right: -38%;
-    position: fixed;
+    top: -25px;
+    left: 95%;
+    /* position: fixed; */
+    position: relative;
     font-size: 48px;
+    height: 0px;
+    margin: 0;
+    padding: 0;
     cursor: pointer;
     z-index: 120;
     color: rgb(255, 0, 0);
     background: transparent;
+    /* background: black; */
+    /* display: flex; */
     display: none;
-
-
 }
 
 /* COMPUTER DISPLAY */
 
-@media screen and (min-width:500px) {
+/* @media screen and (min-width:500px) {
     #cross {
         right: -170px;
         top: 19%;
@@ -599,7 +631,7 @@ textarea:focus {
         margin-left: 35vw;
     }
 
-}
+} */
 
 
 #login {
@@ -612,6 +644,9 @@ textarea:focus {
     top: 0;
 }
 
+#login h1{
+    font-size: 35px;
+}
 
 
 .loginbox {
@@ -621,6 +656,7 @@ textarea:focus {
     border-radius: 20px;
     width: 90%;
     max-width: 400px;
+    height: 300px;
     text-align: center;
 }
 
@@ -630,7 +666,7 @@ textarea:focus {
     border-radius: 15px;
     border: 1px solid #00394bcb;
     background-color: #00394b33;
-    margin-top: 20px;
+    margin-top: 10px;
     font-size: 16px;
 }
 
@@ -808,11 +844,12 @@ textarea:focus {
     width: 100%;
     /* max-width:650px; */
     background: white;
+    color: white;
     padding: 30px;
     /* border-radius:18px;
 box-shadow:0 10px 30px rgba(0,0,0,.08); */
     border-top: 6px solid transparent;
-    background-image: linear-gradient(white, white),
+    background-image: linear-gradient(rgb(0, 0, 0), rgb(0, 0, 0)),
         var(--primary-background);
     background-origin: border-box;
     background-clip: padding-box, border-box;
@@ -820,11 +857,11 @@ box-shadow:0 10px 30px rgba(0,0,0,.08); */
 
 .about-box h1 {
     margin-top: 0;
-    font-size: 26px;
-    text-align: right;
+    font-size: 30px;
+    /* text-align: right; */
     font-family: monospace;
-    word-spacing: -12px;
-    background: linear-gradient(135deg, #007bff8e, #00aeff94);
+    /* word-spacing: -12px; */
+    /* background: linear-gradient(135deg, #007bff8e, #00aeff94); */
     -webkit-background-clip: text;
     background-clip: text;
     color: transparent;
@@ -833,7 +870,7 @@ box-shadow:0 10px 30px rgba(0,0,0,.08); */
 
 .about-box p {
     line-height: 1.6;
-    color: #444;
+    color: #ffffff;
 }
 
 .info {
@@ -861,18 +898,19 @@ box-shadow:0 10px 30px rgba(0,0,0,.08); */
     margin-top: 20px;
     font-size: 13px;
     opacity: .7;
+    text-align: right;
 }
 
 
 .back-circle {
     display: flex;
     position: absolute;
-    top: 15px;
+    top: 25px;
     left: 20px;
     width: 42px;
     height: 42px;
     border: none;
-    border-radius: 50%;
+    /* border-radius: 50%; */
     font-size: 35px;
     cursor: pointer;
 
@@ -921,7 +959,7 @@ box-shadow:0 10px 30px rgba(0,0,0,.08); */
 #overlay p {
     position: fixed;
     bottom: 30%;
-
+    text-align: center;
 
 }
 
@@ -1243,17 +1281,29 @@ box-shadow:0 10px 30px rgba(0,0,0,.08); */
 
 
 #help {
-    position: fixed;
+    position: absolute;
     top: 0;
     left: 0;
     width: 100%;
     min-height: 100vh;
+    height: fit-content;
     background-color: #121212;
     color: #eee;
     padding: 40px 20px;
     display: none;
     z-index: 20000;
+    overflow-y: auto;  
+    margin-bottom: 50px;
+    
+    scrollbar-width: none; /* Firefox */
+     -ms-overflow-style: none;  /* Internet Explorer 10+ */
 }
+
+::-webkit-scrollbar {
+    display: none; /* Chrome, Safari, Opera */
+}
+
+
 
 h1 {
     text-align: center;
