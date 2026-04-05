@@ -8,6 +8,30 @@ document.addEventListener("DOMContentLoaded", () => {
     }, 1500)
 })
 
+
+const textInput = document.getElementById("textInput");
+const charCount = document.getElementById("charCount");
+
+textInput.addEventListener("input", () => {
+    let len = textInput.value.length;
+
+    // hard limit safety (just in case paste bypasses)
+    if (len > 25000) {
+        textInput.value = textInput.value.slice(0, 25000);
+        len = 25000;
+    }
+
+    charCount.innerText = `${len} / 25000`;
+
+    // optional: warning color
+    if (len > 24000) {
+        charCount.style.color = "red";
+    } else {
+        charCount.style.color = "#aaa";
+    }
+});
+
+
 function showTab(tab) {
     createTab.style.display = tab === 'create' ? 'flex' : 'none';
     savedTab.style.display = tab === 'saved' ? 'flex' : 'none';
@@ -71,6 +95,7 @@ async function startGeneration() {
 
     const reader = new FileReader();
     reader.onload = async () => {
+        overlay.style.display = "flex";
         const pdf = await pdfjsLib.getDocument(new Uint8Array(reader.result)).promise;
         let fullText = "";
         for (let i = 1; i <= pdf.numPages; i++) {
@@ -170,6 +195,12 @@ ${text}`
 
         if (!success) {
             overlay.querySelectorAll('p')[0].innerText = "Failed to generate full set after 3 retries. Please try again.";
+            /* clear inputs */
+            textInput.value = "";
+            pdfInput.value = "";
+            fileName.textContent = "No file chosen";
+            qCount.value = 30;
+            charCount.innerText = `0 / 25000`;
             setTimeout(() => {
                 overlay.style.display = "none";
                 overlay.querySelectorAll('p')[0].innerText = "";
@@ -196,6 +227,7 @@ ${text}`
     pdfInput.value = "";
     fileName.textContent = "No file chosen";
     qCount.value = 30;
+    charCount.innerText = `0 / 25000`;
 
     setTimeout(() => {
         overlay.style.display = "none";
@@ -268,6 +300,7 @@ function openSet(set) {
 * {
     margin: 0;
     padding: 0;
+    -webkit-tap-highlight-color: transparent;
 }
 
 body {
@@ -501,25 +534,3 @@ function contact() {
 }
 
 
-
-const textInput = document.getElementById("textInput");
-const charCount = document.getElementById("charCount");
-
-textInput.addEventListener("input", () => {
-    let len = textInput.value.length;
-
-    // hard limit safety (just in case paste bypasses)
-    if (len > 25000) {
-        textInput.value = textInput.value.slice(0, 25000);
-        len = 25000;
-    }
-
-    charCount.innerText = `${len} / 25000`;
-
-    // optional: warning color
-    if (len > 24000) {
-        charCount.style.color = "red";
-    } else {
-        charCount.style.color = "#aaa";
-    }
-});

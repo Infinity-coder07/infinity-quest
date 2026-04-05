@@ -618,20 +618,6 @@ textarea:focus {
     display: none;
 }
 
-/* COMPUTER DISPLAY */
-
-/* @media screen and (min-width:500px) {
-    #cross {
-        right: -170px;
-        top: 19%;
-    }
-
-    .navbar {
-        width: 30vw;
-        margin-left: 35vw;
-    }
-
-} */
 
 
 #login {
@@ -1342,6 +1328,12 @@ h1 {
     font-size: 14px;
     color: #ccc;
     font-weight: 400;
+
+}
+
+.answer ul li {
+    margin: 6px 0;
+    list-style: inside square;
 
 }
 
