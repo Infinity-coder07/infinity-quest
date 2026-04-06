@@ -200,7 +200,7 @@
         <p>Generating MCQs...</p>
     </div>
 
-    <!-- <div id="main-loading">
+    <div id="main-loading">
         <div class="spinner">
             <div></div>
             <div></div>
@@ -209,7 +209,7 @@
             <div></div>
             <div></div>
         </div>
-    </div> -->
+    </div>
 
 
     <div id="alert-box">
@@ -670,10 +670,62 @@
         </div>
         <input type="file" id="pdfInput">
 
-        <div class="number-box">
-            <p>Number of questions:</p>
-            <input type="number" id="qCount" value="30" min="10" max="300" placeholder="10 - 300 questions">
+
+        <div class="wrapper">
+
+            <!-- Number of Questions -->
+            <div class="card">
+                <h3>
+                    <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="34px"
+                        fill=" #414141">
+                        <path
+                            d="M348.5-291.5Q360-303 360-320t-11.5-28.5Q337-360 320-360t-28.5 11.5Q280-337 280-320t11.5 28.5Q303-280 320-280t28.5-11.5Zm0-160Q360-463 360-480t-11.5-28.5Q337-520 320-520t-28.5 11.5Q280-497 280-480t11.5 28.5Q303-440 320-440t28.5-11.5Zm0-160Q360-623 360-640t-11.5-28.5Q337-680 320-680t-28.5 11.5Q280-657 280-640t11.5 28.5Q303-600 320-600t28.5-11.5ZM440-280h240v-80H440v80Zm0-160h240v-80H440v80Zm0-160h240v-80H440v80ZM200-120q-33 0-56.5-23.5T120-200v-560q0-33 23.5-56.5T200-840h560q33 0 56.5 23.5T840-760v560q0 33-23.5 56.5T760-120H200Zm0-80h560v-560H200v560Zm0-560v560-560Z" />
+                    </svg>
+                    Number of MCQs
+                </h3>
+
+                <div class="counter">
+                    <button onclick="changeCount(-5)">−</button>
+                    <div class="count" id="count">30</div>
+                    <button onclick="changeCount(10)">+</button>
+                </div>
+
+                <div class="range">Range: 10 - 200</div>
+            </div>
+
+            <!-- Difficulty -->
+            <div class="card">
+                <h3>
+                    <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px"
+                        fill="#8C1AF6">
+                        <path
+                            d="M280-280h80v-280h-80v280Zm160 0h80v-400h-80v400Zm160 0h80v-160h-80v160ZM200-120q-33 0-56.5-23.5T120-200v-560q0-33 23.5-56.5T200-840h560q33 0 56.5 23.5T840-760v560q0 33-23.5 56.5T760-120H200Zm0-80h560v-560H200v560Zm0-560v560-560Z" />
+                    </svg> Difficulty Level
+                </h3>
+
+                <div class="dropdown">
+                    <div class="dropdown-selected" onclick="toggleDropdown()">
+                        <span id="selected-text">Mixed (Easy, Medium, Hard)</span>
+                        <span class="arrow"><svg xmlns="http://www.w3.org/2000/svg" height="24px"
+                                viewBox="0 -960 960 960" width="24px" fill="#150029">
+                                <path
+                                    d="M480-80 200-360l56-57 184 184v-287h80v287l184-183 56 56L480-80Zm-40-520v-120h80v120h-80Zm0-200v-80h80v80h-80Z" />
+                            </svg></span>
+                    </div>
+
+                    <div class="dropdown-options" id="dropdown-options">
+                        <div class="option" data-value="mixed (Easy, Medium, Hard)">Mixed (Easy, Medium, Hard)</div>
+                        <div class="option" data-value="easy">Easy</div>
+                        <div class="option" data-value="medium">Medium</div>
+                        <div class="option" data-value="hard">Hard</div>
+                    </div>
+                </div>
+
+            </div>
+
         </div>
+
+
 
         <button class="btn" onclick="startGeneration()">
             <svg height="24" width="24" fill="#FFFFFF" viewBox="0 0 24 24" data-name="Layer 1" id="Layer_1"

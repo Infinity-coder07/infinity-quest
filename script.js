@@ -53,21 +53,48 @@ input.addEventListener("change", () => {
     fileName.textContent = input.files[0]?.name || "No file chosen";
 });
 
-const qInput = document.getElementById("qCount");
 
-qInput.addEventListener("blur", () => {
-    if (qInput.value === "") {
-        qInput.value = 30;
-        return;
-    }
 
-    let val = parseInt(qInput.value);
 
-    if (val < 10) qInput.value = 10;
-    if (val > 300) qInput.value = 300;
+let qcount = 30;
+
+function changeCount(value) {
+    qcount += value;
+
+    if (qcount < 10) qcount = 10;
+    if (qcount > 200) qcount = 200;
+
+    document.getElementById("count").innerText = qcount;
+}
+
+
+
+// Example: Get values (use this when generating questions)
+let selectedDifficulty = "Mixed (Easy, Medium, Hard)";
+
+function toggleDropdown() {
+    const menu = document.getElementById("dropdown-options");
+    menu.style.display = menu.style.display === "block" ? "none" : "block";
+}
+
+document.querySelectorAll(".option").forEach(option => {
+    option.addEventListener("click", function () {
+        const text = this.innerText;
+        const value = this.getAttribute("data-value");
+
+        document.getElementById("selected-text").innerText = text;
+        selectedDifficulty = value;
+
+        document.getElementById("dropdown-options").style.display = "none";
+    });
 });
 
-qInput.addEventListener("wheel", e => e.preventDefault());
+
+document.addEventListener("click", function (e) {
+    if (!e.target.closest(".dropdown")) {
+        document.getElementById("dropdown-options").style.display = "none";
+    }
+});
 
 
 let alertbox = document.getElementById("alert-box");
@@ -85,11 +112,14 @@ async function startGeneration() {
 
     const text = textInput.value.trim();
     const file = pdfInput.files[0];
-    const count = qCount.value;
+    const count = qcount;
+    const difficulty = selectedDifficulty;
+
+
 
     if (text && file) return showAlert("Please provide either text or a PDF, not both.");
 
-    if (text) return generateMCQ(text, count);
+    if (text) return generateMCQ(text, count, difficulty);
 
     if (!file) return showAlert("Enter text or upload PDF");
 
@@ -104,12 +134,12 @@ async function startGeneration() {
             fullText += c.items.map(i => i.str).join(" ");
         }
         fullText = fullText.replace(/\s+/g, " ").slice(0, 25000);
-        generateMCQ(fullText, count);
+        generateMCQ(fullText, count, difficulty);
     };
     reader.readAsArrayBuffer(file);
 }
 
-async function generateMCQ(text, totalCount) {
+async function generateMCQ(text, totalCount, difficulty) {
     overlay.style.display = "flex";
     overlay.querySelectorAll('p')[0].innerText = "Generating MCQs...";
     let allQuestions = [];
@@ -144,6 +174,7 @@ Generate EXACTLY ${currentChunk} MCQs.
 
 Rules:
 - MUST return exactly ${currentChunk}
+- difficulty should be ${difficulty}
 - 4 options each
 - 1 correct answer
 - No explanation
@@ -199,8 +230,14 @@ ${text}`
             textInput.value = "";
             pdfInput.value = "";
             fileName.textContent = "No file chosen";
-            qCount.value = 30;
+            selectedDifficulty = "Mixed (Easy, Medium, Hard)";
+            qcount = 30;
+            document.getElementById("selected-text").innerText = selectedDifficulty;
+            document.getElementById("count").innerText = qcount;
+
             charCount.innerText = `0 / 25000`;
+
+
             setTimeout(() => {
                 overlay.style.display = "none";
                 overlay.querySelectorAll('p')[0].innerText = "";
@@ -226,7 +263,10 @@ ${text}`
     textInput.value = "";
     pdfInput.value = "";
     fileName.textContent = "No file chosen";
-    qCount.value = 30;
+    selectedDifficulty = "Mixed (Easy, Medium, Hard)";
+    qcount = 30;
+    document.getElementById("selected-text").innerText = selectedDifficulty;
+    document.getElementById("count").innerText = qcount;
     charCount.innerText = `0 / 25000`;
 
     setTimeout(() => {
