@@ -64,6 +64,7 @@ textarea {
     background-color: transparent;
     font-family: inherit;
     font-size: 16px;
+    margin-bottom: 10px;
 }
 
 textarea:focus {
@@ -73,7 +74,7 @@ textarea:focus {
 
 #charCount {
     position: relative;
-    top: -40px;
+    top: -50px;
     text-align: right;
     margin-right: 5px;
     font-size: 12px;
@@ -1394,4 +1395,43 @@ h1 {
 .help-back-btn:hover svg {
     fill: #13bcec;
     transform: scale(1.2);
+}
+
+.or-box {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.divider-or{
+    position: fixed;
+    width: 90%;
+    max-width: 600px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    /* margin: 20px 0; */
+    /* left: 5%; */
+
+    top: 265px;
+}
+
+.line {
+    flex: 1;
+    height: 1px;
+    background-color: #333333cc;
+}
+
+.or{
+    font-weight: 600;
+    color: #0c0c0c;
+    border-radius: 50%;
+    /* padding: 5px 5px; */
+    height: 35px;
+    width: 35px;
+    font-size: small;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #ffffff;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.534);
 }
