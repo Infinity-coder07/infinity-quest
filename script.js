@@ -242,6 +242,9 @@ ${text}`
                 overlay.style.display = "none";
                 overlay.querySelectorAll('p')[0].innerText = "";
             }, 2000);
+            setTimeout(() => {
+                location.reload(true);
+            }, 2000);
             return;
         }
 
@@ -523,16 +526,19 @@ document.querySelectorAll(".question").forEach(q => {
 
 
 document.getElementById("continueBtn").onclick = function () {
-    let key = document.getElementById("apikeyinput").value.trim()
-    if (!key) return
-    localStorage.setItem("api_key", key)
-    document.getElementById("login").style.display = "none"
+    let key = document.getElementById("apikeyinput").value.trim();
+    if (!key) return;
+    localStorage.setItem("api_key", key);
+    document.getElementById("login").style.display = "none";
+    setTimeout(() => {
+                location.reload(true);
+            }, 200);
 }
 
 // /* AUTO LOGIN */
 
 if (localStorage.getItem("api_key")) {
-    document.getElementById("login").style.display = "none"
+    document.getElementById("login").style.display = "none";
 }
 
 
@@ -567,6 +573,9 @@ function delete_all() {
     showAlert("All saved MCQ sets have been deleted.");
     loadSaved();
     document.getElementById('delete-overlay').style.display = 'none';
+    setTimeout(() => {
+                location.reload(true);
+            }, 200);
 }
 
 function contact() {
