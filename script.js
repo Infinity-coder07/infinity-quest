@@ -579,7 +579,7 @@ function delete_all() {
 }
 
 function contact() {
-    window.open("https://lysosome.in", "_blank");
+    window.open("https://infinity-coder07.github.io/arko/", "_blank");
 }
 
 
