@@ -127,10 +127,30 @@ textInput.addEventListener("input", () => {
 
 
 function showTab(tab) {
+    const createRadio = document.getElementById("glass-silver");
+    const savedRadio = document.getElementById("glass-gold");
+
     createTab.style.display = tab === 'create' ? 'flex' : 'none';
     savedTab.style.display = tab === 'saved' ? 'flex' : 'none';
-    if (tab === 'saved') loadSaved();
+
+    if (tab === 'saved') {
+        savedRadio.checked = true;
+        loadSaved();
+    } else {
+        createRadio.checked = true;
+    }
 }
+
+function initTabState() {
+    const activeTab = document.querySelector('input[name="plan"]:checked');
+    if (activeTab?.id === "glass-gold") {
+        showTab("saved");
+    } else {
+        showTab("create");
+    }
+}
+
+window.addEventListener("pageshow", initTabState);
 
 document.querySelectorAll('input[name="plan"]').forEach(radio => {
     radio.addEventListener("change", () => {
@@ -139,6 +159,7 @@ document.querySelectorAll('input[name="plan"]').forEach(radio => {
     });
 });
 
+initTabState();
 
 const input = document.getElementById("pdfInput");
 const fileName = document.getElementById("fileName");
@@ -599,14 +620,74 @@ render();
     window.open(url, "_blank");
 }
 
+function pushModalState(modalName) {
+    history.pushState({ page: 'modal', modal: modalName }, "");
+}
+
+function isModalOpen(id) {
+    const el = document.getElementById(id);
+    return el ? getComputedStyle(el).display !== "none" : false;
+}
+
+function closeActiveModal() {
+    const modals = [
+        { id: "delete-overlay", close: () => document.getElementById("delete-overlay").style.display = "none" },
+        { id: "login", close: () => {
+            document.getElementById("login").style.display = "none";
+            document.getElementById("cross").style.display = "none";
+        } },
+        { id: "apiGuide", close: () => document.getElementById("apiGuide").style.display = "none" },
+        { id: "help", close: () => document.getElementById("help").style.display = "none" },
+        { id: "about", close: () => document.getElementById("about").style.display = "none" },
+        { id: "sidebar", close: () => {
+            document.getElementById("sidebar").style.display = "none";
+            document.getElementById("sidebar-toggle").style.display = "none";
+        } }
+    ];
+
+    for (const modal of modals) {
+        const el = document.getElementById(modal.id);
+        if (!el) continue;
+
+        const display = getComputedStyle(el).display;
+        if (display !== "none") {
+            modal.close();
+            return true;
+        }
+    }
+    return false;
+}
+
+window.addEventListener("popstate", (event) => {
+    const state = event.state;
+    if (!state || !state.modal) {
+        closeActiveModal();
+        return;
+    }
+
+    if (state.modal === "sidebar" && isModalOpen("login")) {
+        closeActiveModal();
+        return;
+    }
+
+    if (state.modal === "login" && isModalOpen("delete-overlay")) {
+        closeActiveModal();
+        return;
+    }
+
+    closeActiveModal();
+});
+
 function openMenu() {
     document.getElementById("sidebar").style.display = "block";
     document.getElementById("sidebar-toggle").style.display = "block";
+    pushModalState("sidebar");
 }
 
 function closeMenu() {
     document.getElementById("sidebar").style.display = "none";
     document.getElementById("sidebar-toggle").style.display = "none";
+    if (history.state?.modal === "sidebar") history.back();
 }
 
 
@@ -625,34 +706,76 @@ document.querySelectorAll(".question").forEach(q => {
 
 function open_api_guide() {
     document.getElementById("apiGuide").style.display = "flex";
+    pushModalState("apiGuide");
+}
+
+function closeApiGuide() {
+    document.getElementById("apiGuide").style.display = "none";
+    if (history.state?.modal === "apiGuide") history.back();
 }
 
 function open_about() {
-    document.getElementById("about").style.display = "flex"
+    document.getElementById("about").style.display = "flex";
+    pushModalState("about");
 }
 function close_about() {
-    document.getElementById("about").style.display = "none"
+    if (history.state?.modal === "about") {
+        history.back();
+        return;
+    }
+    document.getElementById("about").style.display = "none";
+}
+
+function openHelp() {
+    document.getElementById("help").style.display = "block";
+    pushModalState("help");
+}
+
+function closeHelp() {
+    if (history.state?.modal === "help") {
+        history.back();
+        return;
+    }
+    document.getElementById("help").style.display = "none";
+}
+
+function openDeleteOverlay() {
+    document.getElementById('delete-overlay').style.display = 'flex';
+    pushModalState('delete-overlay');
+}
+
+function closeDeleteOverlay() {
+    if (history.state?.modal === 'delete-overlay') {
+        history.back();
+        return;
+    }
+    document.getElementById('delete-overlay').style.display = 'none';
 }
 /* API SETTINGS */
 
 function changeAPI() {
-    document.getElementById("login").style.display = "flex"
-    document.getElementById("cross").style.display = "flex"
+    document.getElementById("login").style.display = "flex";
+    document.getElementById("cross").style.display = "flex";
+    pushModalState("login");
 }
 function closelogin() {
-    document.getElementById("login").style.display = "none"
-    document.getElementById("cross").style.display = "none"
+    if (history.state?.modal === "login") {
+        history.back();
+        return;
+    }
+    document.getElementById("login").style.display = "none";
+    document.getElementById("cross").style.display = "none";
 }
 function deleteAPI() {
-    localStorage.removeItem("api_key")
-    location.reload()
+    localStorage.removeItem("api_key");
+    location.reload();
 }
 
 function delete_all() {
     localStorage.removeItem("mcqSets");
     showAlert("All saved MCQ sets have been deleted.");
     loadSaved();
-    document.getElementById('delete-overlay').style.display = 'none';
+    closeDeleteOverlay();
     setTimeout(() => {
         location.reload(true);
     }, 200);

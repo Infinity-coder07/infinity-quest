@@ -420,7 +420,7 @@ textarea:focus {
     bottom: 10px;
     right: 10px;
     font-size: 12px;
-    color: #07070780;
+    color: rgba(7, 7, 7, 0.2);
     font-weight: 400;
 }
 
@@ -543,13 +543,13 @@ textarea:focus {
 }
 
 .sidebar span {
-    font-size: 30px;
-    color: #00000000;
+    font-size: 40px;
+    color: #000000;
     background: linear-gradient(215deg, #dd00ff 10%, #ff0000 62%);
     background-clip: text;
     font-weight: 800;
     position: absolute;
-    top: 15px;
+    top: 5px;
     left: 15px;
     font-family: Arial, Helvetica, sans-serif;
     cursor: pointer;

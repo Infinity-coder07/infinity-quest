@@ -232,16 +232,16 @@
 
         <div id="sidebar" class="sidebar">
             <h3>Settings</h3>
-            <span onclick="closeMenu()">X</span>
+            <span onclick="closeMenu()">×</span>
             <div class="menu-btns">
                 <button onclick="changeAPI()">Change API Key</button>
                 <button onclick="deleteAPI()">Delete API Key</button>
-                <button onclick="document.getElementById('help').style.display='block'">Help</button>
+                <button onclick="openHelp()">Help</button>
                 <button onclick="open_about()">About App</button>
-                <button onclick="document.getElementById('delete-overlay').style.display='flex'">Delete All
-                    MCQs</button>
+                <button onclick="openDeleteOverlay()">Delete All</button>
                 <button onclick="contact()">Contact Us</button>
             </div>
+
 
         </div>
         <div id="sidebar-toggle" onclick="closeMenu()" class="sidebar-close-screen"></div>
@@ -270,7 +270,7 @@
 
             <div class="popup-box">
 
-                <button class="close-btn" onclick="document.getElementById('apiGuide').style.display='none'">✕</button>
+                <button class="close-btn" onclick="closeApiGuide()">✕</button>
 
                 <h1>How to Get an <br>OpenRouter API Key ?</h1>
 
@@ -390,8 +390,7 @@
                 <p>Are you sure you want to delete All Questions?</p>
                 <div class="delete-options">
                     <button id="confirm-delete" onclick="delete_all()">Yes</button>
-                    <button id="cancel-delete"
-                        onclick="document.getElementById('delete-overlay').style.display = 'none';">No</button>
+                    <button id="cancel-delete" onclick="closeDeleteOverlay()">No</button>
                 </div>
             </div>
         </div>
@@ -400,7 +399,7 @@
             <div class="help-div">
 
 
-                <span class="help-back-btn" onclick="document.getElementById('help').style.display='none'">
+                <span class="help-back-btn" onclick="closeHelp()">
                     <svg xmlns="http://www.w3.org/2000/svg" height="34px" viewBox="0 -960 960 960" width="34px"
                         fill="#EFEFEF">
                         <path d="m313-440 224 224-57 56-320-320 320-320 57 56-224 224h487v80H313Z" />
@@ -753,7 +752,7 @@
         <div class="glass-glider"></div>
     </div>
 
-    <div class="credit">Created by Arko Sarkar</div>
+    <div class="credit">Created by Arko</div>
     <script src="script.js"></script>
 
 </body>
